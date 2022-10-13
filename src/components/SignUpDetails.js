@@ -19,7 +19,7 @@ function SignUpDetails()
             </div>
             <div className='PhoneNumber-Container'>
                 <label>Mobile Number:</label>
-                <input type="text" name="mobileNumber" onChange={(e)=>setMobileNumber(e.target.value)}></input>
+                <input type="number" name="mobileNumber" onChange={(e)=>setMobileNumber(e.target.value)}></input>
                 
             </div>
             <div className='Email-Container'>

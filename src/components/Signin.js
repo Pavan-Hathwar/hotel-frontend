@@ -1,5 +1,5 @@
 import React , {useState} from 'react';
-
+import { Link } from "react-router-dom";
 
 function Signin()
 {
@@ -23,9 +23,10 @@ function Signin()
                 <input type="submit" value="submit"></input>
             </div>
             
-            
         </form>
-       
+        
+            <Link to="/signup">Sign-Up?</Link>
+        
     </div>
     );
 }
