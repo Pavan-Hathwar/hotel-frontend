@@ -1,24 +1,43 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import "./generalStyle.css";
+import PhoneInput from "react-phone-number-input";
+import HotelEmployeeService from "../services/HotelEmployeeService";
 
 function SignUp() {
+  let navigate = useNavigate();
   const [name, setName] = useState("");
   const [mobileNumber, setMobileNumber] = useState();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [userExistMessage, setUserExistMessage] = useState("");
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
+    let employeeDetalis = {
+      name: data.name,
+      mobileNumber: data.mobileNumber,
+      emailId: data.email,
+      password: data.password,
+    };
+    HotelEmployeeService.enterNewEmployee(employeeDetalis).then((res) => {
+      if (res.data != "") {
+        setUserExistMessage("");
+        navigate("/");
+      }
+      setUserExistMessage("User Exist");
+    });
   };
+
   return (
-    <div>
-      <div className="Signin">
+    <div className="block">
+      <div className>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="Name-Container">
             <label>name:</label>
@@ -29,16 +48,19 @@ function SignUp() {
               onChange={(e) => setName(e.target.value)}
             ></input>
           </div>
-          <p>{errors?.name && errors.name.message}</p>
+          <p>
+            {errors?.name && errors.name.message}
+            {userExistMessage}
+          </p>
 
           <div className="PhoneNumber-Container">
             <label>Mobile Number:</label>
             <input
-              type="number"
+              type="text"
               name="mobileNumber"
               {...register("mobileNumber", {
                 required: "please enter your mobileNumber",
-                max: 10,
+                pattern: /^[789][0-9]{9}$/i,
               })}
               onChange={(e) => setMobileNumber(e.target.value)}
             ></input>
@@ -70,7 +92,7 @@ function SignUp() {
           <p>{errors?.password && errors.password.message}</p>
 
           <div className="ConfirmPassword-Container">
-            <label>password:</label>
+            <label>Confirm password:</label>
             <input
               type="password"
               name="confirmPassword"
@@ -88,7 +110,7 @@ function SignUp() {
         </form>
       </div>
       <div>
-        <Link to="/">Back to Sign-In</Link>
+        <a onClick={() => navigate("/")}>Back to Sign-In</a>
       </div>
     </div>
   );

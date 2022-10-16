@@ -1,0 +1,13 @@
+.block {
+  margin: auto;
+
+  border: 2px solid rgb(0, 0, 0);
+  width: fit-content;
+  padding: 15px;
+  background-color: rgb(47, 190, 229);
+  font-size: 20px;
+}
+a{
+  background-color: rgb(212, 220, 222);
+ 
+}
